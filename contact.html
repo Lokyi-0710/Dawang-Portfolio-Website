@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - D&I GRAD SHOW 2024 | Dawang</title>
+
+      <!-- 引入Google字体 -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Mono&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --main-book-color: #e74c3c; /* 统一的鲜艳红色书脊 */
+      --text-light: #ecf0f1;
+      --text-dark: #2c3e50;
+      --shadow: rgba(0, 0, 0, 0.2);
+      --shelf-wood: #8b4513;
+      --background-color: #FFEB3B; /* Yellow background color */
+      
+      /* Additional colors for decorative books */
+      --decorative-color-1: #9b59b6;
+      --decorative-color-2: #f39c12; 
+      --decorative-color-3: #16a085;
+      --decorative-color-4: #c0392b;
+      --decorative-color-5: #2b87c0;
+      --decorative-color-6: #27ae60;
+      --decorative-color-7: #d35400;
+      --decorative-color-8: #8e44ad;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+        font-family: "PT Mono", monospace;
+        font-weight: 400;
+      background-color: var(--background-color);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      min-height: 100vh;
+      width: 100%;
+    }
+        /*---------------------------     navbar    ---------------------------*/
+        .side-nav {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 60px;
+      height: 100vh;
+      background-color: #fff; 
+      z-index: 9999;
+      display: flex; 
+      align-items: top; 
+      justify-content: center; 
+    }
+    .side-nav nav {
+      margin-top: 160%;
+      padding-top: 50%;
+      height: 100%;
+      writing-mode: vertical-lr;
+      text-orientation: upright;
+      display: flex;
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: top;    
+    }
+    .side-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      gap: 20%;  
+    }
+    .side-nav li {
+      margin: 0;
+      padding: 0;
+    }
+    .side-nav a {
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+    .side-nav a:hover {
+      color: #555;
+    }
+    .main-content {
+      margin-left: 80px; 
+      padding-top: 20px;
+    }
+
+    .bookshelf-container {
+      margin-left: 120px;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: calc(100% - 120px);
+      max-width: 1800px;
+    }
+    
+    .bookshelf {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 20px;
+      justify-content: center;
+    }
+    
+    /* Wooden shelf styling */
+    .bookshelf::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left:auto;
+      width: 90%;
+      height: 25px;
+      background: var(--shelf-wood);
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Shelf support left */
+    .bookshelf::before {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: 20%;
+      width: 40px;
+      height: 80px;
+      background: var(--shelf-wood);
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Shelf support right */
+    .shelf-support-right {
+      position: absolute;
+      bottom: -80px;
+      right: 20%;
+      width: 40px;
+      height: 80px;
+      background: var(--shelf-wood);
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .book {
+      position: relative;
+      height: 400px;
+      width: 60px;
+      transition: all 0.5s ease;
+      transform-origin: bottom;
+      transform-style: preserve-3d;
+      margin: 0 20px;
+      cursor: pointer;
+    }
+    
+    .book:hover {
+      transform: translateY(-20px) rotateX(10deg);
+      z-index: 10;
+    }
+    
+    .book-spine {
+      position: absolute;
+      width: 60px;
+      height: 100%;
+      left: 0;
+      top: 0;
+      border-radius: 5px 0 0 5px;
+      box-shadow: -2px 4px 10px var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      transform-style: preserve-3d;
+      background-color: var(--main-book-color); /* 统一使用鲜艳红色 */
+      border-left: 4px solid #c0392b; /* 统一的深红色边缘 */
+      overflow: hidden;
+    }
+    
+    /* Adding a gradient pattern to the spine */
+    .book-spine::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 100%);
+      z-index: 1;
+    }
+    
+    .book-spine p {
+      color: white;
+      font-family: "PT Mono", monospace;
+      font-weight: 700;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      text-align: center;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better readability */
+    }
+    
+    .book-content {
+      position: absolute;
+      width: 500px; /* Wider content area for photos */
+      height: 100%;
+      left: 60px;
+      top: 0;
+      background-color: white;
+      border-radius: 0 5px 5px 0;
+      padding: 30px;
+      box-shadow: 0 4px 10px var(--shadow);
+      transform: rotateY(90deg);
+      transform-origin: left;
+      opacity: 0;
+      overflow: auto;
+      transition: all 0.5s ease;
+    }
+    
+    .book:hover .book-content {
+      transform: rotateY(0);
+      opacity: 1;
+    }
+    
+    .book-content h3 {
+      color: var(--accent-color);
+      margin: 15px 0 10px;
+      font-family: "PT Mono", monospace;
+      font-weight: 400;
+      line-height: 1.6;
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 5px;
+    }
+        
+    /* .book-content .h3-cn {
+        color: #666;
+      font-family: "Source Sans 3"; 
+      font-weight: 500;
+    }
+     */
+    .book-content p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    .book-content .section-en {
+      /* font-style: italic; */
+      color: #666;
+      /* margin-bottom: 15px; */
+      line-height: 1.6;
+    }
+    
+    .book-content img {
+      width: 100%;
+      margin: 15px 0;
+      border-radius: 5px;
+      box-shadow: 0 2px 8px var(--shadow);
+      transition: all 0.3s ease;
+    }
+    
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    
+    .gallery img {
+      width: calc(33.33% - 7px);
+      height: 120px;
+      object-fit: cover;
+    }
+    
+    .book-content img:hover {
+      transform: scale(1.03);
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+    }
+    
+    .contact-item span {
+      font-size: 24px;
+      margin-right: 15px;
+      color: var(--primary-color);
+    }
+    
+    /* Book label */
+    .book-spine::after {
+      content: '';
+      position: absolute;
+      bottom: 20px;
+      width: 40px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 5px;
+      z-index: 2;
+    }
+    
+    /* Decorative books */
+    .decorative-book {
+      position: relative;
+      height: 380px;
+      width: 50px;
+      border-radius: 5px 0 0 5px;
+      box-shadow: -2px 4px 10px var(--shadow);
+      margin: 0 10px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      transform-origin: bottom;
+    }
+    
+    /* Decorative book colors and heights variation */
+    .decorative-book:nth-child(4n) {
+      height: 360px;
+      background: var(--decorative-color-1);
+      border-left: 4px solid #7d4497; /* Darker edge */
+    }
+    
+    .decorative-book:nth-child(4n+1) {
+      height: 340px;
+      background: var(--decorative-color-2);
+      border-left: 4px solid #c27d0e; /* Darker edge */
+    }
+    
+    .decorative-book:nth-child(4n+2) {
+      height: 390px;
+      background: var(--decorative-color-3);
+      border-left: 4px solid #0e7a64; /* Darker edge */
+    }
+    
+    .decorative-book:nth-child(4n+3) {
+      height: 370px;
+      background: var(--decorative-color-4);
+      border-left: 4px solid #9f2d23; /* Darker edge */
+    }
+
+    .decorative-book:nth-child(5n) {
+      height: 320px;
+      background: var(--decorative-color-5);
+      border-left: 4px solid #1a648f; /* Darker edge */
+    }
+    
+    .decorative-book:nth-child(5n+1) {
+      height: 335px;
+      background: var(--decorative-color-6);
+      border-left: 4px solid #1e8449; /* Darker edge */
+    }
+    
+    .decorative-book:nth-child(5n+2) {
+      height: 355px;
+      background: var(--decorative-color-7);
+      border-left: 4px solid #a04200; /* Darker edge */
+    }
+    
+    .decorative-book:nth-child(5n+3) {
+      height: 385px;
+      background: var(--decorative-color-8);
+      border-left: 4px solid #6c3483; /* Darker edge */
+    }
+    
+    /* Add spine decoration to decorative books */
+    .decorative-book::after {
+      content: '';
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 4px;
+    }
+    
+    /* Add another spine decoration */
+    .decorative-book::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 4px;
+    }
+    
+    /* Animation for decorative books */
+    .decorative-book:hover {
+      transform: translateY(-10px) rotate(2deg);
+      box-shadow: -4px 8px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Responsive styles */
+    @media (max-width: 1400px) {
+      .bookshelf-container {
+        margin-left: 100px;
+        width: calc(100% - 100px);
+      }
+      
+      .book-content {
+        width: 400px;
+      }
+      
+      .gallery img {
+        height: 100px;
+      }
+    }
+    
+    @media (max-width: 1024px) {
+      .book-content {
+        width: 350px;
+      }
+      
+      .book {
+        height: 350px;
+        width: 50px;
+      }
+      
+      .book-spine {
+        width: 50px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .book-content {
+        width: 300px;
+        left: 40px;
+        padding: 20px;
+      }
+      
+      .gallery img {
+        width: calc(50% - 5px);
+        height: 90px;
+      }
+      
+      .book {
+        width: 40px;
+      }
+      
+      .book-spine {
+        width: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Fixed vertical sidebar navigation -->
+  <div class="side-nav">
+    <nav>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html">Works</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Main content area: Bookshelf with books -->
+  <div class="bookshelf-container">
+    <div class="bookshelf">
+      <!-- Decorative books on left -->
+      <div class="decorative-book"></div>
+      <!-- Book 1: Studio Information -->
+      <div class="book">
+        <div class="book-spine">
+          <p>Studio</p>
+        </div>
+        <div class="book-content">
+          <h3>关于工作室 | About Studio</h3>
+          
+          <p><strong>地址 | Address</strong></p>
+          <p>上海市虹口区东长治路505号 雷士德工学院旧址</p>
+          <p class="section-en">505 DongChangzhi Road, Hongkou District, Shanghai 200080, China</p>
+          
+          <h3>工作室照片 | Studio Photos</h3>
+            <img src="images\contact\-01.png" alt="Dawang SUN's Studio - Exterior">
+          <img src="images\contact\-02.jpg" alt="Dawang SUN's Studio - Working Space">
+          <img src="images\contact\-03.png" alt="Dawang SUN's Studio - Meeting Area">
+          
+          <p>我们的工作室位于历史悠久的雷士德工学院旧址，环境安静宜人，交通便利。</p>
+          <p class="section-en">Our studio is located in the historic Lester Institute building, offering a peaceful and convenient working environment.</p>
+        </div>
+      </div>
+      <div class="decorative-book"></div>
+      <div class="decorative-book"></div>
+      <div class="decorative-book"></div>
+      <div class="decorative-book"></div>
+
+
+      <!-- Book 2: Recruitment Information -->
+      <div class="book">
+        <div class="book-spine">
+          <p>Join Us</p>
+        </div>
+        <div class="book-content">
+          <h3>加入我们 | Join Our Team</h3>
+          
+          <h3>品牌设计师 | Brand Designer</h3>
+          <p>• 两年以上平面设计工作经验</p>
+          <p>• 熟练掌握 Illustrator、Photoshop、InDesign 等软件</p>
+          <p>• 具备调研分析能力、热衷视觉创新探索</p>
+          <p class="section-en">• Minimum 2 years of graphic design experience</p>
+          <p class="section-en">• Proficient in Illustrator, Photoshop, InDesign</p>
+          <p class="section-en">• Strong research and analysis skills, passion for visual innovation</p>
+          
+          <h3>数字媒体设计师 | Digital Media Designer</h3>
+          <p>• 两年以上数字媒体设计工作经验</p>
+          <p>• 熟练掌握 AfterEffects、Premiere、C4D 等软件</p>
+          <p>• 扎实的三维建模与动态执行能力、热衷探索动态视觉呈现形式</p>
+          <p class="section-en">• Minimum 2 years of digital media design experience</p>
+          <p class="section-en">• Proficient in AfterEffects, Premiere, C4D</p>
+          <p class="section-en">• Strong 3D modeling and motion execution skills, passion for dynamic visual presentation</p>
+          <p>(同时招录实习生 | Also hiring interns for this position)</p>
+          
+          <h3>实习生 | Intern</h3>
+          <p>• 热爱艺术设计，专业不限</p>
+          <p class="section-en">• Passion for art and design, all majors welcome</p>
+          
+          <p style="margin-top: 20px; font-style: italic;">请将您的作品集发送至我们的邮箱，邮件主题注明应聘职位。</p>
+          <p class="section-en">Please send your portfolio to our email with the position you're applying for in the subject line.</p>
+        </div>
+      </div>
+      <div class="decorative-book"></div>
+      <div class="decorative-book"></div>
+      <div class="decorative-book"></div>
+
+
+      <!-- Book 3: Contact Information -->
+      <div class="book">
+        <div class="book-spine">
+          <p>Contact</p>
+        </div>
+        <div class="book-content">
+          <h3>联系方式 | Contact Information</h3>
+          
+          <div class="contact-item">
+            <span>📱</span>
+            <div>
+              <p><strong>微信 | WeChat</strong></p>
+              <p>brandgenesislab</p>
+            </div>
+          </div>
+          
+          <div class="contact-item">
+            <span>📘</span>
+            <div>
+              <p><strong>小红书 | Xiaohongshu</strong></p>
+              <p>11528667121</p>
+              <p>4267005490</p>
+            </div>
+          </div>
+          
+          <div class="contact-item">
+            <span>✉️</span>
+            <div>
+              <p><strong>邮箱 | Email</strong></p>
+              <p>brandgenesislab@qq.com</p>
+              <p>brandgenesislab@gmail.com</p>
+            </div>
+          </div>
+          
+          <p style="margin-top: 30px;">我们的工作时间是周一至周五 9:30-18:30，欢迎您随时与我们取得联系。</p>
+          <p class="section-en">Our working hours are Monday to Friday, 9:30-18:30. Feel free to contact us anytime.</p>
+          
+        </div>
+      </div>
+      
+      <!-- Decorative books on right -->
+      <div class="decorative-book"></div>
+      <div class="decorative-book"></div>
+      <div class="decorative-book"></div>
+      <div class="decorative-book"></div>
+      <div class="decorative-book"></div>
+      <!-- Shelf support right -->
+      <div class="shelf-support-right"></div>
+    </div>
+  </div>
+
+  <script>
+    // Enhanced script for book animations
+    document.addEventListener('DOMContentLoaded', function() {
+      const books = document.querySelectorAll('.book');
+      const decorativeBooks = document.querySelectorAll('.decorative-book');
+      
+      // Main books animation
+      books.forEach(book => {
+        // Add slight random rotation to books
+        const randomRotation = (Math.random() - 0.5) * 3;
+        book.style.transform = `rotate(${randomRotation}deg)`;
+        
+        // Reset rotation on hover
+        book.addEventListener('mouseenter', () => {
+          book.style.transform = 'translateY(-20px) rotateX(10deg)';
+        });
+        
+        // Restore random rotation after hover
+        book.addEventListener('mouseleave', () => {
+          book.style.transform = `rotate(${randomRotation}deg)`;
+        });
+      });
+      
+      // Decorative books animation
+      decorativeBooks.forEach(decorBook => {
+        // Add slight random rotation
+        const randomRotation = (Math.random() - 0.5) * 4;
+        const randomYOffset = (Math.random() - 0.5) * 5;
+        decorBook.style.transform = `translateY(${randomYOffset}px) rotate(${randomRotation}deg)`;
+        
+        // Add subtle animation effect
+        decorBook.addEventListener('mouseenter', () => {
+          decorBook.style.transform = 'translateY(-10px) rotate(2deg)';
+        });
+        
+        // Restore random position after hover
+        decorBook.addEventListener('mouseleave', () => {
+          setTimeout(() => {
+            decorBook.style.transform = `translateY(${randomYOffset}px) rotate(${randomRotation}deg)`;
+          }, 100);
+        });
+      });
+      
+      // Add a subtle breathing animation to all books when page loads
+      const allBooks = [...books, ...decorativeBooks];
+      allBooks.forEach((book, index) => {
+        setTimeout(() => {
+          book.style.transform = 'translateY(-5px)';
+          setTimeout(() => {
+            // Reset to original random position
+            if (book.classList.contains('decorative-book')) {
+              const randomRotation = (Math.random() - 0.5) * 4;
+              const randomYOffset = (Math.random() - 0.5) * 5;
+              book.style.transform = `translateY(${randomYOffset}px) rotate(${randomRotation}deg)`;
+            } else {
+              const randomRotation = (Math.random() - 0.5) * 3;
+              book.style.transform = `rotate(${randomRotation}deg)`;
+            }
+          }, 300);
+        }, index * 100); // Stagger the animation
+      });
+    });
+  </script>
+</body>
+</html>

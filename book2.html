@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
+
+  <style>
+    /* 基础样式 */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #FDE401;
+      font-family: "PT Mono", monospace;
+      font-weight: 400;
+    }
+    .open-book {
+      width: 70%;
+      height:80%;
+      max-height:800px;
+      max-width: 1800px;
+      margin: 80px auto;
+      position: relative;
+      display: flex;
+      perspective: 1200px;
+      background: #FFFFFF;
+      /* 整体书本的阴影效果和圆角效果 */
+      box-shadow: 10px 10px 15px rgba(61, 61, 0, 0.4);
+      border-radius: 30px;
+    }
+    /* 左右页面各占50%，并通过伪元素模拟书本厚度 */
+    .left-page,
+    .right-page {
+      width: 50%;
+      /* background: #fff; */
+      padding: 40px;
+      box-sizing: border-box;
+    }
+    /* 模拟左侧页面厚度（右侧阴影） */ 
+    .left-page::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -20px;
+      width: 20px;
+      height: 100%;
+      transform: skewY(-3deg);
+      z-index: -1;
+    }
+
+    /* 模拟书页中缝（书脊）的效果 */
+    .book-binding {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 40px;
+      margin-left: -20px;
+      background: 
+        /* 内部阴影增加厚度感 */
+        /* linear-gradient(to right, #ddd, #aaa), */
+        /* 使用预制图片增强真实感 */
+        url('../images/binding.png') repeat center center;
+      background-size: contain;
+      pointer-events: none;
+      /* box-shadow: inset 0 0 10px rgba(0,0,0,0.5); */
+    }
+    /* 图片画廊 */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .img1{
+      width: 100%;
+      top: 0;
+      bottom: 0;
+      display: block;
+    }
+    .img2{
+      width: 70%;
+      top: 0;
+      bottom: 0;
+      display: block;
+    }
+
+    .img3 {
+      width: 60%;
+      top: 0;
+      bottom: 0;
+      display: block;
+    }
+    .img4 {
+      position: absolute;
+      width: 32%;
+      /* left:30px; */
+      top: 535px;
+      bottom: 0;
+      display: block;
+    }
+    .img5 {
+      position: absolute;
+      width: 16%;
+      right:0;
+      top: 290px;
+      bottom: 0;
+      display: block;
+    }
+
+    /* 作品标题 */
+    .title {
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    /* 作品文案 */
+    .copy {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .copy p {
+      margin: 15px 0;
+    }
+    /* _________________________________________________ */
+
+  .side-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 60px;             /* 导航栏宽度，可根据需求调整 */
+    height: 100vh;           /* 占满整个屏幕高度 */
+    background-color: #fff;  /* 导航栏背景色 */
+    /* border-right: 1px solid #000; */
+    z-index: 9999;           /* 确保导航在其他内容之上 */
+    display: flex;           /* 启用 Flexbox */
+    align-items: top;     /* 水平居中（对旋转文字而言即左右居中） */
+    justify-content: center; /* 垂直居中（对旋转文字而言即上下居中） */
+  }
+
+  /* 导航内容：使用 writing-mode 使文字从上到下排列 */
+  .side-nav nav {
+    margin-top: 160%;
+    padding-top: 50%;
+
+    height: 100%;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+
+    display: flex;           /* 再次启用 Flexbox */
+    flex-direction: column;  /* 让 ul/链接垂直排列 */
+    justify-content: center; /* 让 ul 居中在可用高度 !important*/
+    align-items: top;     /* 横向居中 */
+  }
+
+  .side-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 20%;  
+    /* 每个菜单项之间的距离，可自行调整 */
+  }
+
+  .side-nav li {
+    margin: 0;
+    padding: 0;
+  }
+
+  .side-nav a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
+  }
+
+  .side-nav a:hover {
+    color: #555;
+    text-decoration: underline;
+  }
+
+
+  /* 给主要内容留出左侧空间，避免被导航栏遮挡 */
+  .main-content {
+    margin-left: 80px; /* 与导航栏宽度+一些余量相匹配 */
+    padding-top: 20px;
+  }
+
+  /* 三种不同的字符样式示例 */
+.char-1cn {
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 600;
+  font-size: 48px;   
+  font-weight: 700;   
+  color: #000;  
+  line-height: 1;   
+}
+
+.char-2en {
+  font-size: 32px; 
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 600;     
+  color: #FDE401;          
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.char-3en {
+  font-size: 16px;  
+  font-family:"PT Mono", monospace;
+  color: #666;          
+  line-height: 1.2;
+}
+.char-4en {
+  font-size: 12px;
+  font-family:"PT Mono", monospace;
+  color:#828282;          
+  line-height: 1.5;
+  margin: 10px 0;
+}
+.char-4cn {
+  font-size: 10px; 
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 400;   
+  color: #828282;          
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+  </style>
+</head>
+
+
+<body>
+          <!-- ====== 左侧竖向导航栏 ====== -->
+  <div class="side-nav">
+    <nav>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html">Works</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="open-book">
+    <!-- 左页 -->
+    <div class="left-page">
+      <div class="copy">
+        <p class="char-1cn">2024年</p>
+        <p class="char-1cn">同济大学</p>
+        <p class="char-1cn">设计创意学院</p>
+        <p class="char-1cn">毕业展</p>
+        <p class="char-2en">D&I GRAD SHOW 2024</p>
+        <p class="char-3en">CLIENT: Tongji University</p>
+        <p>‍</p>
+        <p>‍</p>
+        <p>‍</p>
+        <p>‍</p>
+        <p class="char-4en">
+          The 2024 graduation exhibition of the College of Design and Innovation at Tongji University was held at the Minghua Sugar Warehouse. The inspiration for the exhibition's main visual, presented in the form of sugar painting, came from the exhibition venue—the sugar warehouse. The team used a robotic arm to print the exhibition's theme, "D&I GRAD SHOW 2024," in syrup, which was then photographed to create the sugar painting poster. Additionally, sugar elements were used to symbolize the students' four years of hard work, culminating in a sweet graduation. Seed paper was used to make name badges, reflecting the dean's message in the exhibition's opening speech: "Plant a seed of design, and it will bloom into a unique and flourishing life!" 
+        </p>
+      </div>
+    </div>   
+    <!-- 中缝 -->
+    <div class="book-binding"></div>  
+    <!-- 右页 -->
+    <div class="right-page">
+      <div class="image-gallery">
+        <img class="img1" src="../images/book2/1.png" alt="2024Grad 作品图片1">
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="open-book">
+    <!-- 左页 -->
+    <div class="left-page">
+      <div class="image-gallery">
+        <img class="img2" src="../images/book2/4.jpg" alt="2024Grad 作品图片2">
+      </div>
+      <p>‍</p>
+      <p>‍</p>
+      <p>‍</p>
+      <p>‍</p>
+      <p>‍</p>
+      <p class="char-4cn">
+        2024同济大学设计创意学院的毕业展在明华糖仓举行。以糖画的形式来呈现展览主视觉的灵感来自于展览地点——糖仓。团队借助机械臂使用糖浆打印出展览主题信息“D&I GRAD SHOW 2024”，然后拍摄，进而完成这张糖画海报。另外用糖元素来体现学生们经过四年辛苦学习，最终甜蜜毕业！用种子纸来制作胸卡，体现院长在展览寄语中提到的：“播一粒设计种子，开别样人生繁花！” </p>
+    </div>
+    <!-- 中缝 -->
+    <div class="book-binding"></div>
+    <!-- 右页 -->
+    <div class="right-page">
+      <div class="image-gallery">
+        <img class="img3" src="../images/book2/5.png" alt="2024Grad 作品图片3">
+        <img class="img4" src="../images/book2/7.jpg" alt="2024Grad 作品图片5">
+        <img class="img5" src="../images/book2/6.jpg" alt="2024Grad 作品图片4">
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>

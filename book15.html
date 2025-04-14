@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
+
+  <style>
+    /* 基础样式 */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #FDE401;
+      font-family: "PT Mono", monospace;
+      font-weight: 400;
+    }
+    .open-book {
+      width: 70%;
+      height:80%;
+      max-height:800px;
+      max-width: 1800px;
+      margin: 80px auto;
+      position: relative;
+      display: flex;
+      perspective: 1200px;
+      background: #FFFFFF;
+      /* 整体书本的阴影效果和圆角效果 */
+      box-shadow: 10px 10px 15px rgba(61, 61, 0, 0.4);
+      border-radius: 30px;
+    }
+    /* 左右页面各占50%，并通过伪元素模拟书本厚度 */
+    .left-page,
+    .right-page {
+      width: 50%;
+      /* background: #fff; */
+      padding: 40px;
+      box-sizing: border-box;
+    }
+    /* 模拟左侧页面厚度（右侧阴影） */ 
+    .left-page::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -20px;
+      width: 20px;
+      height: 100%;
+      transform: skewY(-3deg);
+      z-index: -1;
+    }
+
+    /* 模拟书页中缝（书脊）的效果 */
+    .book-binding {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 40px;
+      margin-left: -20px;
+      background: url('../images/binding.png') repeat center center;
+    mix-blend-mode: multiply;
+      background-size: contain;
+      pointer-events: none;
+    }
+    /* 图片画廊 */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+} */
+
+  .video {
+  width: 215%;
+      top: 0;
+      bottom: 0;
+      display: block;}
+
+    .img1{
+      /* position: absolute; */
+      /* width: calc(100%-5px); */
+      width: 215%;
+      top: 0;
+      bottom: 0;
+      display: block;
+    }
+    .img2{
+      position: absolute;
+      width: 17%;
+      right: 40px;;
+      top: 59px;
+      bottom: 0;
+      display: block;
+    }
+
+    .img3 {
+      position: absolute;
+      width: 17%;
+      right: 40px;
+      top: 204px;
+      bottom: 0;
+      display: block;
+    }
+    .img4 {
+      position: absolute;
+      width: 43.3%;
+      right: 40px;
+      left:630px;
+      top: 470px;
+      bottom: 0;
+      display: block;
+    }
+
+    /* 作品标题 */
+    .title {
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    /* 作品文案 */
+    .copy {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .copy p {
+      margin: 15px 0;
+    }
+    /* _________________________________________________ */
+
+  .side-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 60px;             /* 导航栏宽度，可根据需求调整 */
+    height: 100vh;           /* 占满整个屏幕高度 */
+    background-color: #fff;  /* 导航栏背景色 */
+    /* border-right: 1px solid #000; */
+    z-index: 9999;           /* 确保导航在其他内容之上 */
+    display: flex;           /* 启用 Flexbox */
+    align-items: top;     /* 水平居中（对旋转文字而言即左右居中） */
+    justify-content: center; /* 垂直居中（对旋转文字而言即上下居中） */
+  }
+
+  /* 导航内容：使用 writing-mode 使文字从上到下排列 */
+  .side-nav nav {
+    margin-top: 160%;
+    padding-top: 50%;
+
+    height: 100%;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+
+    display: flex;           /* 再次启用 Flexbox */
+    flex-direction: column;  /* 让 ul/链接垂直排列 */
+    justify-content: center; /* 让 ul 居中在可用高度 !important*/
+    align-items: top;     /* 横向居中 */
+  }
+
+  .side-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 20%;  
+    /* 每个菜单项之间的距离，可自行调整 */
+  }
+
+  .side-nav li {
+    margin: 0;
+    padding: 0;
+  }
+
+  .side-nav a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
+  }
+
+  .side-nav a:hover {
+    color: #555;
+    text-decoration: underline;
+  }
+
+
+  /* 给主要内容留出左侧空间，避免被导航栏遮挡 */
+  .main-content {
+    margin-left: 80px; /* 与导航栏宽度+一些余量相匹配 */
+    padding-top: 20px;
+  }
+
+  /* 三种不同的字符样式示例 */
+.char-1cn {
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 600;
+  font-size: 48px;      /* 大一点的字号 */
+  font-weight: 700;     /* 更粗的字体 */
+  color: #000;          /* 黑色文字 */
+  line-height: 1.1;     /* 行高可自行调整 */
+  /* margin: 10px 0;  */
+}
+
+.char-2en {
+  font-size: 32px;      /* 中等字号 */
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 600;     
+  color: #FDE401;          
+  line-height: 0.9;
+  /* text-transform: uppercase;  */
+}
+
+.char-3en {
+  font-size: 16px;      /* 客户字号 */
+  font-family:"PT Mono", monospace;
+  color: #666;          
+  line-height: 1.2;
+  /* margin: 10px 0; */
+}
+.char-4en {
+  font-size: 12px;      /* 普通正文字号 */
+  font-family:"PT Mono", monospace;
+  color:#828282;          
+  line-height: 1.5;
+  margin: 10px 0;
+}
+.char-4en-2 {
+  font-size: 12px;      /* 普通正文字号 */
+  font-family:"PT Mono", monospace;
+  color:#828282;          
+  line-height: 1.5;
+  margin: 10px 0;
+  max-width: 220px;
+}
+.char-4cn {
+  font-size: 10px;      /* 普通正文字号 */
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 400;   
+  color: #828282;          
+  line-height: 1.6;
+  /* margin: 0 10px; */
+  margin-bottom: 10px;
+  /* left: 50px; */
+  
+}
+
+  </style>
+</head>
+
+
+<body>
+          <!-- ====== 左侧竖向导航栏 ====== -->
+  <div class="side-nav">
+    <nav>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html">Works</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="open-book">
+    <!-- 左页 -->
+    <div class="left-page">
+      <div class="copy">
+        <p class="char-1cn">2024年</p>
+        <p class="char-1cn">华语百佳</p>
+        <p class="char-1cn">海报展</p>
+        <p class="char-2en">2024 Mandarin Top 100</p>
+        <p class="char-2en">Poster Exhibition</p>
+        <p class="char-3en">CLIENT: Design Innovation Institute Shanghai</p>
+        <p>‍</p>
+        <p>‍</p>
+        <p>‍</p>
+        <p>‍</p>
+        <p class="char-4en">
+            Language is the carrier of culture and an essential medium for humans to perceive the world. Context is to expression what water is to fish. A wanderer removed from their specific context is like a fish out of water, unable to breathe freely and fully. Design, as a unique form of visual language, is inherently intertwined with its specific context.
+        </p>
+        <p class="char-4en">
+            Mandarin is the most widely spoken language in the world. Approximately one in every six people on Earth speaks Mandarin. Designers working within the Mandarin-speaking context operate within an ancient and rich cultural backdrop, using the distinct language of poster design to document and analyze the social and cultural evolution of Mandarin-speaking societies.
+        </p>
+      </div>
+    </div>   
+    <!-- 中缝 -->
+    <div class="book-binding"></div>  
+    <!-- 右页 -->
+    <div class="right-page">
+        <div class="copy">
+            <p class="char-4en-2">
+                On the occasion of the World Design Cities Conference opening, the Mandarin Top 100 Poster Exhibition, as one of the exhibition units, captures subtle shifts and trends in the field of visual communication through poster design. It explores various possibilities within Mandarin visual culture, offering fresh perspectives for design thinking in the industry and inspiring innovative creative forces to contribute to social development.
+            </p>
+      <div class="image-gallery">
+        <img class="img2" src="../images/book15/10009.png" alt="2024Grad 作品图片2">
+        <img class="img3" src="../images/book15/10007.jpg" alt="2024Grad 作品图片3">
+        <img class="img4" src="../images/book15/10004.jpg" alt="2024Grad 作品图片4">
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+  <!-- <div class="open-book">
+    <div class="left-page">
+      <div class="image-gallery">
+        <img class="img1" src="../images/book15/10001.png" alt="100 Best 作品图片1">
+      </div>
+
+      <p>‍</p>
+      <p class="char-4cn">
+        语言是文化的载体，是人类感知世界的重要媒介。语境之于表达，如同水之于鱼。离开了特定语境的游子，好似鱼儿离了水，无法极致地自由呼吸。设计作为一种特殊的视觉语言，与特定的语境注定有着密不可分的关系。华语是世界上使用者最多的语言。地球上约每六个人中，就有一个使用华语。华语语境中的设计师，在这个古老又丰富的语境下，以海报的特殊设计语言来记录、梳理华语社会与文化的变迁。
+    </p>
+    </div>
+    <div class="book-binding"></div>
+    <div class="right-page">
+        <p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p>
+        <p>‍</p><p>‍</p>
+
+        <p class="char-4cn">‍</p> <p class="char-4cn">‍</p> <p class="char-4cn">‍</p><p class="char-4cn">‍</p><p class="char-4cn">‍</p>
+        
+        <p class="char-4cn">
+            在世界设计之都大会开幕之际，华语百佳海报展作为展览单元之一，通过海报形式，捕捉视觉传达领域的细微变化与趋势，探索华语视觉文化中的诸多可能，为行业提供设计思考的新锐切入面，为社会的发展激发新生创意力量。   
+        </p>
+    </div>
+  </div> -->
+
+  <div class="open-book">
+    <!-- 左页 -->
+    <div class="left-page">
+      <!-- <div class="image-gallery"> -->
+      <video autoplay loop muted playsinline width="1100" height="620">
+        <source src="images\book15\15vedio.mp4" type="video/mp4">
+        <source src="video.webm" type="video/webm">
+        您的浏览器不支持 video 标签。
+      </video>
+    <!-- </div> -->
+      <p>‍</p>
+      <p class="char-4cn">
+        语言是文化的载体，是人类感知世界的重要媒介。语境之于表达，如同水之于鱼。离开了特定语境的游子，好似鱼儿离了水，无法极致地自由呼吸。设计作为一种特殊的视觉语言，与特定的语境注定有着密不可分的关系。华语是世界上使用者最多的语言。地球上约每六个人中，就有一个使用华语。华语语境中的设计师，在这个古老又丰富的语境下，以海报的特殊设计语言来记录、梳理华语社会与文化的变迁。
+    </p>
+    </div>
+    <!-- 中缝 -->
+    <div class="book-binding"></div>
+    <!-- 右页 -->
+    <div class="right-page">
+        <p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p><p>‍</p>
+        <p>‍</p><p>‍</p>
+
+        <p class="char-4cn">‍</p> <p class="char-4cn">‍</p> <p class="char-4cn">‍</p><p class="char-4cn">‍</p><p class="char-4cn">‍</p>
+        
+        <p class="char-4cn">
+            在世界设计之都大会开幕之际，华语百佳海报展作为展览单元之一，通过海报形式，捕捉视觉传达领域的细微变化与趋势，探索华语视觉文化中的诸多可能，为行业提供设计思考的新锐切入面，为社会的发展激发新生创意力量。   
+        </p>
+    </div>
+  </div>
+
+
+</body>
+</html>

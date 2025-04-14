@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html data-wf-page="5aa72055900db2422fa27355" data-wf-site="5aa72055900db2ba27a27354">
+<head>
+  <meta charset="utf-8">
+  <!-- 引入Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- 引入Google字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Mono&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+  <title>Book project, CSS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="Webflow">
+
+  <style>
+    html body {
+      height: 100%;
+      margin: 0;
+      min-height: 100%;
+      background-color: #FDE401;
+      font-family: "PT Mono", monospace;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: #333;
+      position: relative;
+    }
+
+    /*---------------------------     navbar    ---------------------------*/
+    .side-nav {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 60px;
+      height: 100vh;
+      background-color: #fff; 
+      z-index: 9999;
+      display: flex; 
+      align-items: top; 
+      justify-content: center; 
+    }
+    .side-nav nav {
+      margin-top: 160%;
+      padding-top: 50%;
+      height: 100%;
+      writing-mode: vertical-lr;
+      text-orientation: upright;
+      display: flex;
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: top;    
+    }
+    .side-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      gap: 20%;  
+    }
+    .side-nav li {
+      margin: 0;
+      padding: 0;
+    }
+    .side-nav a {
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+    .side-nav a:hover {
+      color: #555;
+    }
+    .main-content {
+      margin-left: 80px; 
+      padding-top: 20px;
+    }
+    /*---------------------------      Webflow标准类    ---------------------------*/
+    .w-block { display: block; }
+    .w-inline-block { max-width: 100%; display: inline-block; }
+    .w-richtext:before, .w-richtext:after { content: " "; display: table; }
+    .w-richtext:after { clear: both; }
+    /*---------------------------      全局文本样式    ---------------------------*/
+    h3 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-size: 24px;
+      line-height: 30px;
+      font-weight: bold;
+    }
+    h6 {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: bold;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    a { text-decoration: underline; }
+    /*---------------------------      布局与组件样式    ---------------------------*/
+    .scene {
+      display: flex;
+      width: 100%;
+      height: 55vw;
+      justify-content: center;
+      align-items: stretch;
+      background-color: #FDE401;
+      perspective: 4000px;
+      perspective-origin: 50% 0%;
+    }
+    .book-wrap {
+      position: relative;
+      display: flex;
+      width: 65vw;
+      margin: 8vw 0;
+      padding: 0 1%;
+      justify-content: center;
+
+
+      perspective: 4000px;
+      perspective-origin: 50% 50%;
+      transform: translate3d(0px, 5%, -264px) rotateX(27deg) rotateY(0deg) rotateZ(-10deg);
+      transition: transform 2000ms cubic-bezier(.165, .84, .44, 1);
+      transform-style: preserve-3d;
+    }
+    .book-wrap:hover {
+      transform: translate3d(0px, 5%, -264px) rotateX(13deg) rotateY(0deg) rotateZ(-3deg);
+    }
+    .book-cover-left {
+      flex: 1;
+      border-top-left-radius: 4%;
+      border-bottom-left-radius: 4%;
+      background-color: #2e1800;
+      box-shadow: inset 4px -4px 4px 1px #635648, inset 7px -7px 4px 0 #221b14;
+      perspective: 4000px;
+      transform: translate3d(0px, 0px, -1px);
+      transform-style: preserve-3d;
+    }
+    .book-cover-right {
+      flex: 1;
+      border-top-right-radius: 4%;
+      border-bottom-right-radius: 4%;
+      background-color: #2e1800;
+      box-shadow: inset -4px -4px 4px 1px #635648, inset -7px -7px 4px 0 #221b14;
+    }
+    .layer1 {
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
+      display: flex;
+      margin: 20px 10px 10px;
+      justify-content: flex-start;
+      transform: translate3d(0px, 0px, 5px);
+      transform-style: preserve-3d;
+    }
+    .page-left {
+      flex: 1;
+      border-top-left-radius: 1%;
+      border-bottom-left-radius: 1%;
+      background-color: #fff;
+      box-shadow: inset 0 0 26px 2px #d8cccc, -1px 1px 13px 0 rgba(34, 27, 20, .81);
+    }
+    .layer-text {
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
+      display: flex;
+      width: 97%;
+      margin: 20px 10px 18px;
+      justify-content: flex-start;
+      backface-visibility: hidden;
+      perspective: 4000px;
+      perspective-origin: 50% 50%;
+      transform: translate3d(0px, 0px, 32px);
+      transform-style: preserve-3d;
+    }
+    .layer-text.right {
+      transform: translate3d(-37px, 0px, 32px);
+    }
+    .page-left-2 {
+      position: relative;
+      flex: 1;
+      border-top-left-radius: 18%;
+      border-bottom-left-radius: 1%;
+      background-color: #fff;
+      box-shadow: inset 0 0 7px 4px hsla(0, 13%, 82%, .43), -1px 1px 13px 0 rgba(34, 27, 20, .49);
+      backface-visibility: hidden;
+      transform: rotateX(0deg) rotateY(17deg) rotateZ(0deg);
+      transform-origin: 100% 50%;
+      transition: transform 650ms cubic-bezier(.165, .84, .44, 1);
+      transform-style: preserve-3d;
+    }
+    .page-left-2:hover {
+      transform: rotateX(0deg) rotateY(7deg) rotateZ(0deg);
+    }
+    .left-side {
+      position: relative;
+      display: flex;
+      width: 49%;
+      backface-visibility: hidden;
+      perspective: 4000px;
+      perspective-origin: 0% 50%;
+      transform: rotateX(0deg) rotateY(20deg) rotateZ(0deg);
+      transform-origin: 100% 50%;
+      transform-style: preserve-3d;
+    }
+    .right-side {
+      position: relative;
+      display: flex;
+      width: 49%;
+      perspective: 4000px;
+      perspective-origin: 0% 50%;
+      transform: rotateX(0deg) rotateY(-1deg) rotateZ(0deg);
+      transform-style: preserve-3d;
+    }
+    .center {
+      width: 3%;
+      background-image: radial-gradient(circle farthest-corner at 56% -8%, #fff 8%, transparent 0),
+                        radial-gradient(circle farthest-corner at 50% 108%, #fff 8%, transparent 0),
+                        linear-gradient(90deg, #635648, #2e1800 21%, #635648 30%, #2e1800 48%, #635648 68%, #2e1800 79%, #635648);
+    }
+    .corner-fold {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      border-right: 1px solid hsla(0, 13%, 82%, .55);
+      border-bottom: 1px solid hsla(0, 13%, 82%, .55);
+      background-image: linear-gradient(135deg, transparent 47%, #f0f0f0 48%, #fff 55%, #f6f6f6);
+      box-shadow: 6px 6px 9px -4px hsla(0, 13%, 82%, .53);
+    }
+    .corner {
+      position: absolute;
+      left: 0;
+      top: 27px;
+      width: 5vw;
+      height: 5vw;
+      background-image: linear-gradient(135deg, #fff 30%, transparent);
+      box-shadow: inset 13px 0 17px -12px hsla(0, 13%, 82%, .43);
+    }
+    .corner2 {
+      position: absolute;
+      left: 28px;
+      top: 0;
+      width: 5vw;
+      height: 5vw;
+      background-image: linear-gradient(135deg, #fff 31%, transparent);
+      box-shadow: inset 0 13px 17px -12px hsla(0, 13%, 82%, .43);
+    }
+    .page-text {
+      position: relative;
+      display: block;
+      width: 80%;
+      margin: 25px auto 0;
+      font-family: "PT Mono", monospace;
+      font-weight: 400;
+      overflow-wrap: break-word;
+    }
+     .char-1cn { font-size: 36px; font-family: "Source Sans 3"; font-weight: 600; color: #000; line-height: 1; }
+     .char-2en { font-size: 30px; font-family: "PT Mono"; font-weight: 500; color: #FDE401; line-height: 1; }
+     .char-3en { font-size: 10px; font-family: "PT Mono"; color: #828282; 
+     line-height: 1.3; 
+    }
+     .char-3cn { font-size: 12px; font-family: "Source Sans 3"; font-weight: 500; color: #000; 
+     line-height: 1; 
+    }
+    .char-4en { font-size: 10px; font-family: "PT Mono"; color: #828282; 
+     line-height: 2; 
+    }
+     .char-4cn { font-size: 12px; font-family: "Source Sans 3"; font-weight: 400; color: #000; 
+     line-height: 2; 
+    }
+
+     .page-text .row {
+      margin-top: auto;
+      margin-left: auto;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .page-text .col-6:nth-child(2n-1) {
+  width: 45%; /* 左边（中文） */
+  margin-right: 4%;
+}
+
+.page-text .col-6:nth-child(2n) {
+  width: 48%; /* 右边（英文） */
+}
+
+    .layer2 {
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
+      display: flex;
+      margin: 20px 10px 13px;
+      justify-content: flex-start;
+      transform: translate3d(2px, 0px, 10px);
+      transform-style: preserve-3d;
+    }
+    .layer2.right { transform: translate3d(-5px, 0px, 10px); }
+    .layer3 {
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
+      display: flex;
+      margin: 20px 10px 13px;
+      justify-content: flex-start;
+      transform: translate3d(4px, 0px, 20px);
+      transform-style: preserve-3d;
+    }
+    .layer3.right { transform: translate3d(-10px, 0px, 20px); }
+    .layer4 {
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
+      display: flex;
+      margin: 20px 10px 15px;
+      justify-content: flex-start;
+      transform: translate3d(6px, 0px, 30px);
+      transform-style: preserve-3d;
+    }
+    .layer4.right { transform: translate3d(-15px, 0px, 30px); }
+    .page-right-2 {
+      position: relative;
+      flex: 1;
+      border-top-right-radius: 1%;
+      border-bottom-right-radius: 1%;
+      background-color: #fff;
+      box-shadow: inset 0 0 7px 4px hsla(0, 13%, 82%, .43), 1px 1px 13px 0 rgba(34, 27, 20, .49);
+      backface-visibility: hidden;
+      transform: rotateX(0deg) rotateY(-3deg) rotateZ(0deg);
+      transform-origin: 0% 50%;
+      transition: transform 850ms ease;
+      transform-style: preserve-3d;
+    }
+    .page-right-2:hover {
+      transform: rotateX(0deg) rotateY(-17deg) rotateZ(0deg);
+    }
+    .page-right {
+      flex: 1;
+      border-top-right-radius: 1%;
+      border-bottom-right-radius: 1%;
+      background-color: #fff;
+      box-shadow: inset 0 0 26px 2px #d8cccc, 1px 1px 13px 0 rgba(34, 27, 20, .81);
+    }
+    /*---------------------------   响应式媒体查询（基于Bootstrap断点）   ---------------------------*/
+    @media (max-width: 991.98px) {
+      .book-wrap {
+        width: 80vw;
+        margin: 8vw auto;
+        transform: translate3d(0px, 5%, -220px) rotateX(22deg) rotateY(0deg) rotateZ(-8deg);
+      }
+      .layer-text, .layer2, .layer3, .layer4 {
+        width: 95%;
+        margin: 20px auto;
+      }
+    }
+    @media (max-width: 767.98px) {
+      .book-wrap {
+        width: 90vw;
+        transform: translate3d(0px, 5%, -150px) rotateX(20deg) rotateY(0deg) rotateZ(-5deg);
+      }
+      .page-text { font-size: 12px; }
+      .page-text h3 { font-size: 1.5rem; }
+      .page-text h6 { font-size: 1rem; }
+    }
+    @media (max-width: 575.98px) {
+      .book-wrap {
+        width: 95vw;
+        transform: translate3d(0px, 5%, -120px) rotateX(18deg) rotateY(0deg) rotateZ(-3deg);
+      }
+      .page-text { font-size: 10px; }
+      .page-text h3 { font-size: 1.3rem; }
+      .page-text h6 { font-size: 0.9rem; }
+    }
+    @media (max-width: 479px) {
+      .scene { height: 69vw; }
+      .corner-fold { width: 5.5vw; height: 5.5vw; min-width: 21px; }
+    }
+  </style>
+  
+  <!-- Webfont加载 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ["PT Sans:400,400italic,700,700italic"]
+      }
+    });
+  </script>
+  
+  
+  <link href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="https://daks2k3a4ib2z.cloudfront.net/img/webclip.png" rel="apple-touch-icon">
+</head>
+<body>
+  <!-- ====== 左侧竖向导航栏 ====== -->
+  <div class="side-nav">
+    <nav>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html">Works</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="scene">
+    <div class="book-wrap">
+      <div class="left-side">
+        <div class="book-cover-left"></div>
+        <div class="layer1"><div class="page-left"></div></div>
+        <div class="layer2"><div class="page-left"></div></div>
+        <div class="layer3"><div class="page-left"></div></div>
+        <div class="layer4"><div class="page-left"></div></div>
+  
+        <div class="layer-text">
+          <div class="page-left-2">
+            <div class="corner"></div>
+            <div class="corner2"></div>
+            <div class="corner-fold"></div>
+            <div class="page-text w-richtext">
+              <h3>
+                <span class="char-1cn">孙大旺</span>
+              </h3>
+              <h3>
+                <span class="char-2en">Dawang Sun</span>
+              </h3>
+              <p>‍</p>
+              <p>‍</p>
+              <p>‍</p>
+              <p>‍</p>
+            
+              <p class="char-3cn">DIIS品牌创生实验室 负责人</p>
+              <p class="char-3en">Director of DIIS Brand Creation Laboratory</p>
+              <p class="char-3cn">上海市艺术设计领军人才</p>
+              <p class="char-3en">Leading Talent in Art and Design, Shanghai</p>
+              <p class="char-3cn">同济大学设计创意学院 特聘研究员/硕士生导师</p>
+              <p class="char-3en">Distinguished Research Fellow / Master's Supervisor at Tongji University College of Design and Innovation</p>
+              <p class="char-3cn">上海艺术指导俱乐部(ShanghaiADC)发起人</p>
+              <p class="char-3en">Founder of Shanghai Art Direction Club (ShanghaiADC)</p>
+              <p class="char-3cn">纽约字体指导俱乐部 (TDC)会员</p>
+              <p class="char-3en">Member of New York Type Directors Club (TDC)</p>
+              <p class="char-3cn">深圳平面设计协会(SGDA)会员</p>
+              <p class="char-3en">Member of Shenzhen Graphic Design Association (SGDA)</p>
+              <p class="char-3cn">设计麦Design Mic 主理人</p>
+              <p class="char-3en">Principal of Design Mic</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="center"></div>
+  
+      <div class="right-side">
+        <div class="book-cover-right"></div>
+        <div class="layer1"><div class="page-right"></div></div>
+        <div class="layer2 right"><div class="page-right"></div></div>
+        <div class="layer3 right"><div class="page-right"></div></div>
+        <div class="layer4 right"><div class="page-right"></div></div>
+      
+        <div class="layer-text right">
+          <div class="page-right-2">
+            <div class="page-text w-richtext">
+      
+              <!-- 双栏整体容器 -->
+              <div class="row g-4">
+                <div class="col-6">
+                  <p class="char-4cn"><strong>领域：</strong>专注于品牌形象的建立、提升与再设计，持续为国内外的品牌项目提供策略与设计服务。</p>
+                </div>
+                <div class="col-6">
+                  <p class="char-4en"><strong>Field:</strong> Focused on the creation, enhancement, and redesign of brand identity, continuously providing strategic and design services for domestic and international brand projects.</p>
+                </div>
+                <div class="col-6">
+                  <p class="char-4cn"><strong>经历：</strong>上海临港自贸区、上海西岸区域、上海家化集团、西岸美术馆和美国里奇伍德图书馆等建立或重塑品牌视觉形象。</p>
+                </div>
+                <div class="col-6">
+                  <p class="char-4en"><strong>Experience:</strong> Established or reshaped brand visual identities for projects such as Shanghai Lingang Free Trade Zone, Shanghai West Coast Area, Shanghai Jahwa Group, West Coast Art Museum, and the Richwood Library in the United States.</p>
+                </div>
+                <div class="col-6">
+                  <p class="char-4cn"><strong>奖项：</strong>美国传达艺术奖卓越奖、Graphis金奖、德国红点奖、iF设计奖、纽约TDC奖、纽约ADC、Tokyo TDC优异奖等奖项。</p>
+                </div>
+                <div class="col-6">
+                  <p class="char-4en"><strong>Awards:</strong> Excellence Award at the American Communication Arts Award, Graphis Gold Award, Germany Red Dot Award, iF Design Award, New York TDC Award, New York ADC Award, Tokyo TDC Excellence Award, among others.</p>
+                </div>
+              </div>
+      
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+  <!-- jQuery与Webflow脚本 -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <script src="js/webflow.js"></script>
+  <!--[if lte IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script>
+  <![endif]-->
+</body>
+</html>

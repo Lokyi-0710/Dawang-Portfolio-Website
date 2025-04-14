@@ -1,0 +1,353 @@
+/* 提高选择器的特异性 */
+html body { 
+    margin: 0;
+    padding: 0;
+    font-family: "PT Mono", monospace;
+    font-weight: 400;
+    /* font-kerning:inherit;
+    font-stretch:narrower; */
+    /* cursor: none;  */
+    background-color: #FDE401;
+  }
+  
+  /* _________________________________________________ */
+
+
+  .cursor-bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200vw; /* 扩大背景范围，避免露出空隙 */
+    height: 200vh;
+    background-image: url('../images/Cursor.png');
+    filter: blur(0.2px);
+    background-repeat: repeat;
+    background-size: 215px 115px; /* 缩小为原来一半 */
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.1; 
+    transition: background-position 0.05s ease; /* 更快的响应 */
+  }
+  .static-bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 150vw;
+    height: 150vh;
+    background-image: url('../images/bg-pattern.png'); 
+    filter: blur(0.2px);
+    background-repeat: repeat;
+    background-size: 400px 400px; 
+    pointer-events: none;
+    z-index: 0;
+    /* mix-blend-mode: lighten; */
+  }
+  
+/* _________________________________________________ */
+
+  .side-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 60px;             /* 导航栏宽度，可根据需求调整 */
+    height: 100vh;           /* 占满整个屏幕高度 */
+    background-color: #fff;  /* 导航栏背景色 */
+    /* border-right: 1px solid #000; */
+    z-index: 9999;           /* 确保导航在其他内容之上 */
+    display: flex;           /* 启用 Flexbox */
+    align-items: top;     /* 水平居中（对旋转文字而言即左右居中） */
+    justify-content: center; /* 垂直居中（对旋转文字而言即上下居中） */
+  }
+
+  /* 导航内容：使用 writing-mode 使文字从上到下排列 */
+  .side-nav nav {
+    margin-top: 160%;
+    padding-top: 50%;
+
+    height: 100%;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+
+    display: flex;           /* 再次启用 Flexbox */
+    flex-direction: column;  /* 让 ul/链接垂直排列 */
+    justify-content: center; /* 让 ul 居中在可用高度 !important*/
+    align-items: top;     /* 横向居中 */
+  }
+
+  .side-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 20%;  
+    /* 每个菜单项之间的距离，可自行调整 */
+  }
+
+  .side-nav li {
+    margin: 0;
+    padding: 0;
+  }
+
+  .side-nav a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
+  }
+
+  .side-nav a:hover {
+    color: #555;
+    text-decoration: underline;
+  }
+
+  /* 给主要内容留出左侧空间，避免被导航栏遮挡 */
+  .main-content {
+    margin-left: 80px; /* 与导航栏宽度+一些余量相匹配 */
+    padding-top: 20px;
+  }
+/* _________________________________________________ */
+
+  /* 使用 Bootstrap 的响应式网格系统 */
+  .container {
+    width: 100%;
+    padding: 50px;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* gap: 30px;   */
+    /* margin-right: -300px!important;
+    margin-left:-300px!important; */
+    /* box-sizing: border-box; */
+  }
+  
+  /* 使用 Bootstrap 的响应式类 */
+  .custom-book {
+    width: 100%;
+  }
+  
+  /* 每个书本占据父级的 100% 宽度，由外层（如 bootstrap 的 col-? 类）控制实际宽度 */
+  .book {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    margin: 5%;
+  }
+  
+  /* 采用 aspect-ratio 保持书本比例 */
+  /* 前12本书，比例为 1.36:1，即宽高比 1.36 */
+  .book.book-small {
+    aspect-ratio: 1.3 / 1;
+  }
+  
+  /* 后5本书，比例为 1:1.5，即宽高比 1/1.5 ≈ 0.67 */
+  .book.book-large {
+    aspect-ratio: 1 / 1.5;
+  }
+  
+  .book-cover {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    transform-origin: 0 50%;
+    background: #111;
+    /* 改为使用百分比，让图片缩小到容器的80%，保持比例 */
+    background-size: 65%!important;
+    background-position:center!important;
+    background-repeat: no-repeat!important;
+    /* border-radius: 3px; */
+    box-shadow: 
+      inset 4px 1px 3px #ffffff60,
+      inset 0 -1px 2px #00000080;
+    transition: all .5s ease-in-out;
+  }
+  .book-coverB {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    transform-origin: 0 50%;
+    background: #111;
+    background-size: 100% 100%!important;
+    background-position: center!important;
+    background-repeat: no-repeat!important;
+    border-radius: 3px;
+    box-shadow: 
+      inset 4px 1px 3px #ffffff60,
+      inset 0 -1px 2px #00000080;
+    transition: all .5s ease-in-out;
+  }
+  .book .book-cover {
+    background-color: #ffffff;
+  }
+  .book .book-coverB {
+    background-color: #ffffff;
+  }
+
+  .book-link-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;       /* 确保覆盖在内容之上 */
+    background: transparent;
+    text-decoration: none;
+  }
+  
+  /* 鼠标悬停时显示指针 */
+  .book-link-overlay:hover {
+    cursor: pointer;
+  }
+
+
+  .cover1 { background: url('../images/1-Xian.png'); }
+  .cover2 { background: url('../images/2-2024grad.png'); }
+  .cover3 { background: url('../images/3-frontier.png'); }
+  .cover4 { background: url('../images/4-frence.png'); }
+  .cover5 { background: url('../images/5-lingang.png'); }
+  .cover6 { background: url('../images/6-Archineering.png'); }
+  .cover7 { background: url('../images/7-westbund.png'); }
+  .cover8 { background: url('../images/8-north bund.png'); }
+  .cover9 { background: url('../images/9-ricetalk.png'); }
+  .cover10 { background: url('../images/10-jahwa.jpg'); }
+  .cover11 { background: url('../images/11-ad club.png'); }
+  .cover12 { background: url('../images/12-lester.png'); }
+  .cover13 { background: url('../images/13-youtiao.jpg'); }
+  .cover14 { background: url('../images/14-anotherd.png'); }
+  .cover15 { background: url('../images/15-mandarin.jpg'); }
+  .cover16 { background: url('../images/16-mic.jpg'); }
+  .cover17 { background: url('../images/17-pieces.jpg'); }
+  
+
+  /* 封面书脊阴影效果 */
+  .effect {
+    width: 20px;
+    height: 100%;
+    margin-left: 10px;
+    border-left: 2px solid #00000010;
+    background-image: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    transition: all .5s ease;
+  }
+  .light {
+    width: 90%;
+    height: 100%;
+    position: absolute;
+    border-radius: 3px; 
+    background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 100%);
+    top: 0;
+    right: 0;
+    opacity: .1;
+    transition: all .5s ease;
+  }
+  
+  
+  /* 书籍翻页效果 */
+  .book:hover .book-cover {
+    transform: perspective(2000px) rotateY(-30deg);
+    transform-style: preserve-3d;
+    box-shadow: 
+      inset 4px 1px 3px #ffffff60,
+      inset 0 -1px 2px #00000080,
+      10px 0px 10px -5px #00000030;
+  }
+  .book:hover .book-coverB {
+    transform: perspective(2000px) rotateY(-30deg);
+    transform-style: preserve-3d;
+    box-shadow: 
+      inset 4px 1px 3px #ffffff60,
+      inset 0 -1px 2px #00000080,
+      10px 0px 10px -5px #00000030;
+  }
+  
+  .book:hover .effect {
+    width: 50px;
+  }
+  
+  .book:hover .light {
+    opacity: 1;
+    width: 70%;
+  }
+  
+  /* 内部书籍的阴影效果 */
+  .book-inside {
+    width: calc(100% - 2px);
+    height: 96%;
+    position: relative;
+    top: 2%;
+    border: 1px solid grey;
+    border-radius: 3px;
+    background: white;
+    box-shadow: 
+      10px 40px 40px -10px #00000030,
+      inset -2px 0 0 grey,
+      inset -3px 0 0 #dbdbdb,
+      inset -4px 0 0 white,
+      inset -5px 0 0 #dbdbdb,
+      inset -6px 0 0 white,
+      inset -7px 0 0 #dbdbdb,
+      inset -8px 0 0 white,
+      inset -9px 0 0 #dbdbdb;
+  }
+  
+  /* 书籍标题样式 */
+  .title {
+    font-size: 22px;
+    width: 100%;
+    color: #333;
+    text-align: center;
+    position: absolute;
+
+    bottom: 5px;
+    height: 1px;
+    display: flex;
+    align-items: flex-end;
+    opacity: 0;
+    transition: all 1s ease-in-out;
+  }
+  
+  .title p {
+    width: 100%;
+    margin: 0;
+    line-height: 1.3;
+  }
+  
+
+
+
+  @media (max-width: 767px) {
+
+    .book {
+      width: 100%;
+    }
+    .row {
+      display: block;
+    }
+  }
+  @media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+        margin-right: 500px;
+        margin-left: 500px;
+    }
+    .col-md-3 {
+      flex: 0 0 90%;
+      max-width: 90%;
+    }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        /* gap: 30px;   */
+        margin-right: -150px!important;
+        margin-left:-150px!important;
+        box-sizing: border-box;    
+      }
+  }
+  
